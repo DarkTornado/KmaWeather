@@ -1,5 +1,6 @@
 const http = require('http');
 const axios = require('axios');
+const kmagrid = require('./kmagrid');
 
 http.createServer(async (req, res) => {
     res.writeHead(200, {
@@ -18,7 +19,8 @@ http.createServer(async (req, res) => {
 
     //날씨 API
     if (req.url.startsWith('/weather')) {
-        const result = await getWeather(params);
+        const grid = kmagrid.fromGrid(params.x, params.y);
+        const result = await getWeather(grid);
         res.write(JSON.stringify(result));
     }
 
